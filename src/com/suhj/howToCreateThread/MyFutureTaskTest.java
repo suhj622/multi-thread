@@ -19,5 +19,4 @@ public class MyFutureTaskTest {
 		t.start();
 		System.out.println(task.get());
 	}
-
 }
