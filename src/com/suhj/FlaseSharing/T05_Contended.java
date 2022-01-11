@@ -17,7 +17,7 @@ public class T05_Contended {
 	public static long COUNT = 100_0000_0000L;
 	
 	private static class T{
-		@Contended
+		@Contended //只有1.8起作用
 		public long x = 0L;
 	}
 	
