@@ -5,18 +5,20 @@ package com.suhj.FlaseSharing;
 
 import java.util.concurrent.CountDownLatch;
 
+import sun.misc.Contended;
+
 /**
  * @author Haojie
- * 缓存行填充测试
+ * 测试 Contended 注解
+ * 注意：运行这个小程序的时候，需要加参数：-XX:-RestrictContended
  */
-public class T01_CacheLinePadding {
+public class T05_Contended {
 	
-	public static long COUNT = 10_0000_0000L;
+	public static long COUNT = 100_0000_0000L;
 	
 	private static class T{
-		private long p1, p2, p3 ,p4, p5, p6, p7;
+		@Contended
 		public long x = 0L;
-		private long p9, p10, p11, p12, p13, p14, p15;
 	}
 	
 	public static T[] arr = new T[2];
@@ -41,8 +43,7 @@ public class T01_CacheLinePadding {
 		Thread t2 = new Thread(()->{
 			for (long i = 0; i < COUNT; i ++) {
 				arr[1].x = i;
-			}
-			
+			}			
 			latch.countDown();
 		});
 		
@@ -50,6 +51,7 @@ public class T01_CacheLinePadding {
 		t1.start();
 		t2.start();
 		latch.await();
+		// 4524 3715
 		System.out.println((System.nanoTime()-start)/100_0000);
 				
 	}
